@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/mascot and title.png" alt="Slop Security - Zero-Cognitive-Load Security" width="500"/>
+</p>
+
 # 🛡️ Slop Security Specification
 
 > **One line to secure, zero lines to worry.**

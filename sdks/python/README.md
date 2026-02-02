@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="../../assets/just mascot.png" alt="Slop Security Mascot" width="120"/>
+</p>
+
 # 🛡️ Slop Security - Python SDK
 
 > **One line to secure, zero lines to worry.**

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/slop-security/slop/main/assets/logo.svg" alt="Slop Security Logo" width="200"/>
+  <img src="./assets/mascot and title.png" alt="Slop Security - Zero-Cognitive-Load Security" width="500"/>
 </p>
 
 <h1 align="center">🛡️ Slop Security</h1>

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/just mascot.png" alt="Slop Security Mascot" width="150"/>
+</p>
+
 # Contributing to Slop Security
 
 Thank you for your interest in contributing to Slop Security! 🛡️
