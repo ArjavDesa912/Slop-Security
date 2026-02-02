@@ -1,0 +1,269 @@
+{
+    "$schema": "https://slopsecurity.io/schema/patterns.json",
+    "name": "Extended Vulnerability Patterns",
+    "version": "1.0.0",
+    "description": "Additional security patterns for comprehensive vulnerability detection",
+    "patterns": [
+        {
+            "id": "hardcoded-jwt-secret",
+            "pattern": "jwt[_-]?secret\\s*[:=]\\s*[\"'][^\"']{16,}[\"']",
+            "flags": "gi",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded JWT secret detected"
+        },
+        {
+            "id": "hardcoded-database-url",
+            "pattern": "(mongodb|mysql|postgres|redis)://[^\\s\"']+",
+            "flags": "gi",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded database connection string with credentials"
+        },
+        {
+            "id": "hardcoded-private-key",
+            "pattern": "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
+            "flags": "g",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded private key detected"
+        },
+        {
+            "id": "hardcoded-slack-webhook",
+            "pattern": "hooks\\.slack\\.com/services/[A-Za-z0-9/]+",
+            "flags": "g",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Slack webhook URL detected"
+        },
+        {
+            "id": "hardcoded-sendgrid-key",
+            "pattern": "[\"']SG\\.[a-zA-Z0-9_-]{22}\\.[a-zA-Z0-9_-]{43}[\"']",
+            "flags": "g",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded SendGrid API key detected"
+        },
+        {
+            "id": "hardcoded-twilio-key",
+            "pattern": "[\"']SK[a-f0-9]{32}[\"']",
+            "flags": "g",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Twilio API key detected"
+        },
+        {
+            "id": "sql-injection-f-string",
+            "pattern": "f[\"'].*SELECT.*\\{.*\\}.*FROM",
+            "flags": "gi",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: Python f-string in SQL query"
+        },
+        {
+            "id": "sql-injection-format",
+            "pattern": "\\.format\\s*\\([^)]*\\).*(?:SELECT|INSERT|UPDATE|DELETE)",
+            "flags": "gi",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: String format in SQL query"
+        },
+        {
+            "id": "nosql-injection",
+            "pattern": "\\$where\\s*:\\s*[\"'][^\"']*\\+",
+            "flags": "gi",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "NoSQL Injection: Dynamic $where clause"
+        },
+        {
+            "id": "ldap-injection",
+            "pattern": "ldap://.*\\$\\{|\\(\\w+=.*\\+",
+            "flags": "gi",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "LDAP Injection vulnerability detected"
+        },
+        {
+            "id": "xpath-injection",
+            "pattern": "xpath\\s*\\(.*\\+.*\\)|selectNodes\\s*\\(.*\\+",
+            "flags": "gi",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XPath Injection vulnerability detected"
+        },
+        {
+            "id": "template-injection-jinja",
+            "pattern": "\\{\\{\\s*[^}]*\\|\\s*safe\\s*\\}\\}",
+            "flags": "g",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Template Injection: Jinja2 safe filter bypasses escaping"
+        },
+        {
+            "id": "template-injection-ejs",
+            "pattern": "<%[-=]?\\s*.*\\+",
+            "flags": "g",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Template Injection: Dynamic content in EJS template"
+        },
+        {
+            "id": "path-traversal",
+            "pattern": "(readFile|writeFile|open|unlink)\\s*\\([^)]*\\+[^)]*\\)",
+            "flags": "gi",
+            "severity": "high",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Path Traversal: User input in file path"
+        },
+        {
+            "id": "open-redirect",
+            "pattern": "(redirect|location\\.href)\\s*=\\s*\\w+",
+            "flags": "gi",
+            "severity": "medium",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Open Redirect: Variable used in redirect"
+        },
+        {
+            "id": "insecure-cookie",
+            "pattern": "cookie\\s*\\([^)]*\\)(?!.*secure)",
+            "flags": "gi",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Insecure Cookie: Missing secure flag"
+        },
+        {
+            "id": "missing-httponly",
+            "pattern": "cookie\\s*\\([^)]*\\)(?!.*httponly)",
+            "flags": "gi",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Insecure Cookie: Missing HttpOnly flag"
+        },
+        {
+            "id": "jwt-none-algorithm",
+            "pattern": "algorithm\\s*[:=]\\s*[\"']none[\"']",
+            "flags": "gi",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "JWT with 'none' algorithm - authentication bypass"
+        },
+        {
+            "id": "weak-ssl-verify",
+            "pattern": "(verify\\s*=\\s*False|VERIFY_NONE|rejectUnauthorized\\s*:\\s*false)",
+            "flags": "gi",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "SSL/TLS verification disabled"
+        },
+        {
+            "id": "xml-external-entity",
+            "pattern": "(FEATURE_EXTERNAL_GENERAL_ENTITIES|load_external_dtd|resolve_entities)",
+            "flags": "gi",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XXE: XML External Entity processing enabled"
+        },
+        {
+            "id": "insecure-deserialization-pickle",
+            "pattern": "pickle\\.(loads?|Unpickler)",
+            "flags": "g",
+            "severity": "critical",
+            "owaspId": "A08",
+            "owaspName": "Software and Data Integrity Failures",
+            "message": "Insecure Deserialization: pickle can execute arbitrary code"
+        },
+        {
+            "id": "insecure-deserialization-yaml",
+            "pattern": "yaml\\.load\\s*\\([^)]*\\)(?!.*Loader\\s*=\\s*yaml\\.SafeLoader)",
+            "flags": "g",
+            "severity": "high",
+            "owaspId": "A08",
+            "owaspName": "Software and Data Integrity Failures",
+            "message": "Insecure Deserialization: Use yaml.safe_load instead"
+        },
+        {
+            "id": "exposed-error-message",
+            "pattern": "(res\\.send|res\\.json)\\s*\\(\\s*(err|error|e)\\s*\\)",
+            "flags": "gi",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Error object exposed to client - may leak sensitive info"
+        },
+        {
+            "id": "missing-rate-limit",
+            "pattern": "app\\.(post|put|delete)\\s*\\([\"']/(?:login|auth|password|register)",
+            "flags": "gi",
+            "severity": "medium",
+            "owaspId": "A07",
+            "owaspName": "Authentication Failures",
+            "message": "Authentication endpoint may need rate limiting"
+        },
+        {
+            "id": "cleartext-password-log",
+            "pattern": "(console\\.(log|error|warn)|logger\\.).*password",
+            "flags": "gi",
+            "severity": "high",
+            "owaspId": "A09",
+            "owaspName": "Security Logging Failures",
+            "message": "Password may be logged in cleartext"
+        },
+        {
+            "id": "missing-csrf-token",
+            "pattern": "app\\.post\\s*\\([^)]*\\)(?!.*csrf)",
+            "flags": "gi",
+            "severity": "medium",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "POST endpoint may need CSRF protection"
+        },
+        {
+            "id": "dangerouslySetInnerHTML",
+            "pattern": "dangerouslySetInnerHTML",
+            "flags": "g",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "React XSS: dangerouslySetInnerHTML usage"
+        },
+        {
+            "id": "process-env-exposure",
+            "pattern": "JSON\\.stringify\\s*\\(\\s*process\\.env\\s*\\)",
+            "flags": "g",
+            "severity": "critical",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "All environment variables exposed - may leak secrets"
+        },
+        {
+            "id": "child-process-shell",
+            "pattern": "spawn\\s*\\([^,)]+,\\s*\\{[^}]*shell\\s*:\\s*true",
+            "flags": "gi",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "spawn with shell:true enables command injection"
+        }
+    ]
+}

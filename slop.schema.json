@@ -1,0 +1,435 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://slopsecurity.io/schema/v1.json",
+    "title": "Slop Security Configuration",
+    "description": "Configuration schema for Slop Security - OWASP Top 10 protection for AI-generated code",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "JSON Schema reference"
+        },
+        "version": {
+            "type": "string",
+            "default": "1.0.0",
+            "description": "Configuration version"
+        },
+        "project": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Project name"
+                },
+                "environment": {
+                    "type": "string",
+                    "enum": [
+                        "development",
+                        "staging",
+                        "production"
+                    ],
+                    "default": "production"
+                },
+                "framework": {
+                    "type": "string",
+                    "default": "auto-detect",
+                    "description": "Framework (auto-detect, express, fastify, next, flask, django, etc.)"
+                }
+            }
+        },
+        "owasp": {
+            "type": "object",
+            "description": "OWASP Top 10 protection settings",
+            "properties": {
+                "a01_access_control": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "rbac": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "audit_logging": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "rate_limiting": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean",
+                                    "default": true
+                                },
+                                "requests_per_minute": {
+                                    "type": "integer",
+                                    "default": 100,
+                                    "minimum": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "a02_cryptographic_failures": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "minimum_algorithm": {
+                            "type": "string",
+                            "default": "aes-256-gcm"
+                        },
+                        "password_hashing": {
+                            "type": "string",
+                            "enum": [
+                                "argon2id",
+                                "bcrypt",
+                                "scrypt"
+                            ],
+                            "default": "argon2id"
+                        },
+                        "enforce_tls": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "detect_hardcoded_secrets": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                },
+                "a03_injection": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "sqli_protection": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "xss_filter": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "command_injection": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "nosql_injection": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "template_injection": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                },
+                "a04_insecure_design": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "rate_limit_auth": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "require_mfa_prompt": {
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "business_logic_checks": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                },
+                "a05_security_misconfiguration": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "secure_headers": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "disable_debug": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "cookie_security": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "cors_policy": {
+                            "type": "string",
+                            "enum": [
+                                "strict",
+                                "permissive",
+                                "disabled"
+                            ],
+                            "default": "strict"
+                        }
+                    }
+                },
+                "a06_vulnerable_components": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "auto_patch": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "severity_threshold": {
+                            "type": "string",
+                            "enum": [
+                                "low",
+                                "medium",
+                                "high",
+                                "critical"
+                            ],
+                            "default": "medium"
+                        },
+                        "block_critical": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                },
+                "a07_auth_failures": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "brute_force_protection": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean",
+                                    "default": true
+                                },
+                                "max_attempts": {
+                                    "type": "integer",
+                                    "default": 5,
+                                    "minimum": 1
+                                },
+                                "lockout_minutes": {
+                                    "type": "integer",
+                                    "default": 15,
+                                    "minimum": 1
+                                }
+                            }
+                        },
+                        "password_policy": {
+                            "type": "string",
+                            "default": "nist-800-63b"
+                        },
+                        "session_security": {
+                            "type": "string",
+                            "enum": [
+                                "strict",
+                                "standard"
+                            ],
+                            "default": "strict"
+                        }
+                    }
+                },
+                "a08_integrity_failures": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "sri_enforcement": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "update_verification": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                },
+                "a09_logging_failures": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "security_events": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "auth",
+                                "access",
+                                "injection",
+                                "rate-limit"
+                            ]
+                        },
+                        "pii_redaction": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "format": {
+                            "type": "string",
+                            "enum": [
+                                "json",
+                                "text"
+                            ],
+                            "default": "json"
+                        }
+                    }
+                },
+                "a10_ssrf": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "block_internal": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "block_metadata": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "dns_rebinding_protection": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "allowlist": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": []
+                        }
+                    }
+                }
+            }
+        },
+        "patching": {
+            "type": "object",
+            "properties": {
+                "auto_patch": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "hardcoded_secrets": {
+                    "type": "string",
+                    "enum": [
+                        "warn",
+                        "warn-and-move",
+                        "block"
+                    ],
+                    "default": "warn-and-move"
+                },
+                "weak_crypto": {
+                    "type": "string",
+                    "enum": [
+                        "warn",
+                        "upgrade",
+                        "block"
+                    ],
+                    "default": "upgrade"
+                },
+                "eval_usage": {
+                    "type": "string",
+                    "enum": [
+                        "warn",
+                        "sandbox",
+                        "block"
+                    ],
+                    "default": "sandbox"
+                },
+                "open_redirects": {
+                    "type": "string",
+                    "enum": [
+                        "warn",
+                        "validate",
+                        "block"
+                    ],
+                    "default": "block"
+                }
+            }
+        },
+        "sandbox": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "timeout_ms": {
+                    "type": "integer",
+                    "default": 5000,
+                    "minimum": 100
+                },
+                "memory_limit_mb": {
+                    "type": "integer",
+                    "default": 128,
+                    "minimum": 16
+                },
+                "allowed_permissions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "network",
+                        "filesystem:read"
+                    ]
+                }
+            }
+        },
+        "reporting": {
+            "type": "object",
+            "properties": {
+                "realtime_alerts": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "weekly_digest": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "siem_integration": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null
+                },
+                "webhook_url": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "format": "uri",
+                    "default": null
+                }
+            }
+        }
+    }
+}

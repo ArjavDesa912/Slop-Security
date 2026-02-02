@@ -1,0 +1,46 @@
+{
+    "name": "slop/security",
+    "description": "One-line security for AI-generated code. OWASP Top 10 protection out of the box.",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Slop Security Team",
+            "email": "team@slopsecurity.io"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Slop\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Slop\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyze": "phpstan analyse src"
+    },
+    "keywords": [
+        "security",
+        "owasp",
+        "xss",
+        "sql-injection",
+        "csrf",
+        "middleware",
+        "laravel",
+        "symfony",
+        "slop",
+        "ai-generated"
+    ]
+}

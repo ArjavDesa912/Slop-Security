@@ -1,0 +1,48 @@
+{
+    "name": "@slop/vibe-check",
+    "version": "1.0.0",
+    "description": "CLI tool to scan AI-generated code for OWASP violations and auto-patch them",
+    "type": "module",
+    "bin": {
+        "vibe-check": "./dist/cli.js"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsup src/cli.ts src/index.ts src/ai-detection.ts --format esm",
+        "dev": "tsx src/cli.ts",
+        "test": "vitest"
+    },
+    "keywords": [
+        "security",
+        "owasp",
+        "scanner",
+        "cli",
+        "slop",
+        "vibecoding",
+        "ai-code"
+    ],
+    "author": "Slop Security Team",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/slop-security/slop-security.git",
+        "directory": "vibe-check"
+    },
+    "dependencies": {
+        "chalk": "^5.3.0",
+        "commander": "^11.1.0",
+        "fast-glob": "^3.3.2",
+        "ora": "^8.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.0",
+        "tsup": "^8.0.1",
+        "tsx": "^4.6.0",
+        "typescript": "^5.3.0",
+        "vitest": "^1.0.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

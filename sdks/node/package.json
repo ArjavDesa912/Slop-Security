@@ -1,0 +1,102 @@
+{
+  "name": "@slop/security",
+  "version": "1.0.0",
+  "description": "One-line security for AI-generated code. OWASP Top 10 protection out of the box.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./express": {
+      "import": "./dist/express.mjs",
+      "require": "./dist/express.js",
+      "types": "./dist/express.d.ts"
+    },
+    "./fastify": {
+      "import": "./dist/fastify.mjs",
+      "require": "./dist/fastify.js",
+      "types": "./dist/fastify.d.ts"
+    },
+    "./next": {
+      "import": "./dist/next.mjs",
+      "require": "./dist/next.js",
+      "types": "./dist/next.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/express.ts src/fastify.ts src/next.ts --format cjs,esm",
+    "dev": "tsup src/index.ts --watch",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "security",
+    "owasp",
+    "xss",
+    "sql-injection",
+    "csrf",
+    "middleware",
+    "express",
+    "fastify",
+    "next",
+    "slop",
+    "vibecoding",
+    "ai-generated"
+  ],
+  "author": "Slop Security Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/slop-security/slop-security.git",
+    "directory": "sdks/node"
+  },
+  "homepage": "https://slopsecurity.io",
+  "bugs": {
+    "url": "https://github.com/slop-security/slop-security/issues"
+  },
+  "dependencies": {
+    "helmet": "^7.1.0",
+    "hpp": "^0.2.3",
+    "xss": "^1.0.14",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/hpp": "^0.2.6",
+    "@types/node": "^20.10.0",
+    "@types/uuid": "^9.0.7",
+    "eslint": "^8.55.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "peerDependencies": {
+    "express": ">=4.0.0",
+    "fastify": ">=4.0.0",
+    "next": ">=13.0.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    },
+    "fastify": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}

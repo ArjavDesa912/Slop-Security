@@ -1,0 +1,109 @@
+{
+    "$schema": "./slop.schema.json",
+    "version": "1.0.0",
+    "project": {
+        "name": "my-slop-app",
+        "environment": "production",
+        "framework": "auto-detect"
+    },
+    "owasp": {
+        "a01_access_control": {
+            "enabled": true,
+            "rbac": true,
+            "audit_logging": true,
+            "rate_limiting": {
+                "enabled": true,
+                "requests_per_minute": 100
+            }
+        },
+        "a02_cryptographic_failures": {
+            "enabled": true,
+            "minimum_algorithm": "aes-256-gcm",
+            "password_hashing": "argon2id",
+            "enforce_tls": true,
+            "detect_hardcoded_secrets": true
+        },
+        "a03_injection": {
+            "enabled": true,
+            "sqli_protection": true,
+            "xss_filter": true,
+            "command_injection": true,
+            "nosql_injection": true,
+            "template_injection": true
+        },
+        "a04_insecure_design": {
+            "enabled": true,
+            "rate_limit_auth": true,
+            "require_mfa_prompt": false,
+            "business_logic_checks": true
+        },
+        "a05_security_misconfiguration": {
+            "enabled": true,
+            "secure_headers": true,
+            "disable_debug": true,
+            "cookie_security": true,
+            "cors_policy": "strict"
+        },
+        "a06_vulnerable_components": {
+            "enabled": true,
+            "auto_patch": true,
+            "severity_threshold": "medium",
+            "block_critical": true
+        },
+        "a07_auth_failures": {
+            "enabled": true,
+            "brute_force_protection": {
+                "enabled": true,
+                "max_attempts": 5,
+                "lockout_minutes": 15
+            },
+            "password_policy": "nist-800-63b",
+            "session_security": "strict"
+        },
+        "a08_integrity_failures": {
+            "enabled": true,
+            "sri_enforcement": true,
+            "update_verification": true
+        },
+        "a09_logging_failures": {
+            "enabled": true,
+            "security_events": [
+                "auth",
+                "access",
+                "injection",
+                "rate-limit"
+            ],
+            "pii_redaction": true,
+            "format": "json"
+        },
+        "a10_ssrf": {
+            "enabled": true,
+            "block_internal": true,
+            "block_metadata": true,
+            "dns_rebinding_protection": true,
+            "allowlist": []
+        }
+    },
+    "patching": {
+        "auto_patch": true,
+        "hardcoded_secrets": "warn-and-move",
+        "weak_crypto": "upgrade",
+        "eval_usage": "sandbox",
+        "open_redirects": "block"
+    },
+    "sandbox": {
+        "enabled": true,
+        "timeout_ms": 5000,
+        "memory_limit_mb": 128,
+        "allowed_permissions": [
+            "network",
+            "filesystem:read"
+        ]
+    },
+    "reporting": {
+        "realtime_alerts": true,
+        "weekly_digest": true,
+        "siem_integration": null,
+        "webhook_url": null
+    }
+}

@@ -1,0 +1,1032 @@
+{
+    "$schema": "https://slopsecurity.io/schema/patterns.json",
+    "name": "Slop Security - Comprehensive Vulnerability Patterns",
+    "version": "1.0.0",
+    "description": "100+ security patterns for detecting OWASP Top 10 vulnerabilities across multiple languages",
+    "patterns": [
+        {
+            "id": "stripe-live-key",
+            "pattern": "[\"']sk_live_[a-zA-Z0-9]{24,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Stripe live secret key"
+        },
+        {
+            "id": "stripe-test-key",
+            "pattern": "[\"']sk_test_[a-zA-Z0-9]{24,}[\"']",
+            "severity": "medium",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Stripe test key (should use env vars)"
+        },
+        {
+            "id": "aws-access-key",
+            "pattern": "[\"']AKIA[A-Z0-9]{12,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded AWS access key ID"
+        },
+        {
+            "id": "aws-secret-key",
+            "pattern": "[\"'][A-Za-z0-9/+=]{40}[\"']",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Potential AWS secret access key"
+        },
+        {
+            "id": "github-pat",
+            "pattern": "[\"']ghp_[a-zA-Z0-9]{36,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded GitHub personal access token"
+        },
+        {
+            "id": "github-oauth",
+            "pattern": "[\"']gho_[a-zA-Z0-9]{36,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded GitHub OAuth token"
+        },
+        {
+            "id": "github-app-token",
+            "pattern": "[\"']ghu_[a-zA-Z0-9]{36,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded GitHub App user token"
+        },
+        {
+            "id": "github-refresh-token",
+            "pattern": "[\"']ghr_[a-zA-Z0-9]{36,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded GitHub refresh token"
+        },
+        {
+            "id": "gitlab-pat",
+            "pattern": "[\"']glpat-[a-zA-Z0-9_-]{20,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded GitLab personal access token"
+        },
+        {
+            "id": "slack-token",
+            "pattern": "[\"']xox[baprs]-[a-zA-Z0-9-]{10,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Slack token"
+        },
+        {
+            "id": "slack-webhook",
+            "pattern": "hooks\\.slack\\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[a-zA-Z0-9]+",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Slack webhook URL"
+        },
+        {
+            "id": "discord-token",
+            "pattern": "[\"'][MN][A-Za-z0-9]{23,}\\.[A-Za-z0-9-_]{6}\\.[A-Za-z0-9-_]{27}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Discord bot token"
+        },
+        {
+            "id": "discord-webhook",
+            "pattern": "discord(?:app)?\\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Discord webhook URL"
+        },
+        {
+            "id": "sendgrid-key",
+            "pattern": "[\"']SG\\.[a-zA-Z0-9_-]{22}\\.[a-zA-Z0-9_-]{43}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded SendGrid API key"
+        },
+        {
+            "id": "mailgun-key",
+            "pattern": "[\"']key-[a-zA-Z0-9]{32}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Mailgun API key"
+        },
+        {
+            "id": "mailchimp-key",
+            "pattern": "[\"'][a-f0-9]{32}-us[0-9]{1,2}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Mailchimp API key"
+        },
+        {
+            "id": "twilio-account-sid",
+            "pattern": "[\"']AC[a-f0-9]{32}[\"']",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Twilio Account SID"
+        },
+        {
+            "id": "twilio-api-key",
+            "pattern": "[\"']SK[a-f0-9]{32}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Twilio API key"
+        },
+        {
+            "id": "google-api-key",
+            "pattern": "[\"']AIza[A-Za-z0-9_-]{35}[\"']",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Google API key"
+        },
+        {
+            "id": "google-oauth-id",
+            "pattern": "[0-9]+-[a-z0-9]+\\.apps\\.googleusercontent\\.com",
+            "severity": "medium",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Google OAuth client ID (may need protection)"
+        },
+        {
+            "id": "firebase-key",
+            "pattern": "[\"']AAAA[A-Za-z0-9_-]{7}:[A-Za-z0-9_-]{140}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Firebase Cloud Messaging key"
+        },
+        {
+            "id": "azure-storage-key",
+            "pattern": "[\"'][A-Za-z0-9+/]{86}==[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Potential Azure Storage account key"
+        },
+        {
+            "id": "heroku-api-key",
+            "pattern": "[\"'][0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}[\"']",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Potential Heroku API key (UUID format)"
+        },
+        {
+            "id": "digitalocean-token",
+            "pattern": "[\"']dop_v1_[a-f0-9]{64}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded DigitalOcean personal access token"
+        },
+        {
+            "id": "npm-token",
+            "pattern": "[\"']npm_[A-Za-z0-9]{36}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded npm access token"
+        },
+        {
+            "id": "pypi-token",
+            "pattern": "[\"']pypi-[A-Za-z0-9_-]{100,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded PyPI API token"
+        },
+        {
+            "id": "jwt-secret",
+            "pattern": "(jwt[_-]?secret|JWT_SECRET)\\s*[:=]\\s*[\"'][^\"']{16,}[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded JWT secret"
+        },
+        {
+            "id": "private-key-rsa",
+            "pattern": "-----BEGIN RSA PRIVATE KEY-----",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded RSA private key"
+        },
+        {
+            "id": "private-key-ec",
+            "pattern": "-----BEGIN EC PRIVATE KEY-----",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded EC private key"
+        },
+        {
+            "id": "private-key-openssh",
+            "pattern": "-----BEGIN OPENSSH PRIVATE KEY-----",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded OpenSSH private key"
+        },
+        {
+            "id": "private-key-pgp",
+            "pattern": "-----BEGIN PGP PRIVATE KEY BLOCK-----",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded PGP private key"
+        },
+        {
+            "id": "mongodb-uri",
+            "pattern": "mongodb(\\+srv)?://[^:]+:[^@]+@[^/]+",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded MongoDB connection string with credentials"
+        },
+        {
+            "id": "mysql-uri",
+            "pattern": "mysql://[^:]+:[^@]+@[^/]+",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded MySQL connection string with credentials"
+        },
+        {
+            "id": "postgres-uri",
+            "pattern": "postgres(ql)?://[^:]+:[^@]+@[^/]+",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded PostgreSQL connection string with credentials"
+        },
+        {
+            "id": "redis-uri",
+            "pattern": "redis://[^:]*:[^@]+@[^/]+",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded Redis connection string with credentials"
+        },
+        {
+            "id": "generic-password",
+            "pattern": "(password|passwd|pwd)\\s*[:=]\\s*[\"'][^\"']{8,}[\"']",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Potential hardcoded password"
+        },
+        {
+            "id": "generic-secret",
+            "pattern": "(secret|api[_-]?key|apikey|auth[_-]?token)\\s*[:=]\\s*[\"'][^\"']{8,}[\"']",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Potential hardcoded secret or API key"
+        },
+        {
+            "id": "generic-credential",
+            "pattern": "(credential|cred|access[_-]?key)\\s*[:=]\\s*[\"'][^\"']{8,}[\"']",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Potential hardcoded credential"
+        },
+        {
+            "id": "md5-hash",
+            "pattern": "createHash\\s*\\(\\s*[\"']md5[\"']\\s*\\)",
+            "severity": "medium",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "MD5 is cryptographically broken - use SHA-256 or better"
+        },
+        {
+            "id": "sha1-hash",
+            "pattern": "createHash\\s*\\(\\s*[\"']sha1[\"']\\s*\\)",
+            "severity": "medium",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "SHA1 is deprecated for security - use SHA-256 or better"
+        },
+        {
+            "id": "math-random",
+            "pattern": "Math\\.random\\s*\\(\\s*\\)",
+            "severity": "medium",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Math.random() is not cryptographically secure - use crypto.randomBytes()"
+        },
+        {
+            "id": "random-python",
+            "pattern": "import random[^_]|from random import",
+            "severity": "medium",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Python random module is not cryptographically secure - use secrets module"
+        },
+        {
+            "id": "jwt-none-algorithm",
+            "pattern": "algorithm\\s*[:=]\\s*[\"']none[\"']",
+            "severity": "critical",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "JWT with 'none' algorithm allows authentication bypass"
+        },
+        {
+            "id": "sql-template-literal",
+            "pattern": "`SELECT[^`]*\\$\\{[^}]+\\}[^`]*`",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: Template literal with variable interpolation"
+        },
+        {
+            "id": "sql-concat-plus",
+            "pattern": "(SELECT|INSERT|UPDATE|DELETE|FROM|WHERE)[^;]*\\+\\s*[a-zA-Z_]",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: String concatenation in SQL query"
+        },
+        {
+            "id": "sql-fstring-python",
+            "pattern": "f[\"'][^\"']*(?:SELECT|INSERT|UPDATE|DELETE|FROM|WHERE)[^\"']*\\{",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: Python f-string in SQL query"
+        },
+        {
+            "id": "sql-format-python",
+            "pattern": "\\.format\\s*\\([^)]*\\)[^;]*(?:SELECT|INSERT|UPDATE|DELETE)",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: Python .format() in SQL query"
+        },
+        {
+            "id": "sql-percent-python",
+            "pattern": "[\"'][^\"']*(?:SELECT|INSERT|UPDATE|DELETE)[^\"']*%s[^\"']*[\"']\\s*%",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: Python % formatting in SQL query"
+        },
+        {
+            "id": "sql-interp-ruby",
+            "pattern": "[\"'][^\"']*(?:SELECT|INSERT|UPDATE|DELETE)[^\"']*#\\{[^}]+\\}",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: Ruby string interpolation in SQL query"
+        },
+        {
+            "id": "sql-interp-php",
+            "pattern": "[\"'][^\"']*(?:SELECT|INSERT|UPDATE|DELETE)[^\"']*\\$[a-zA-Z_]",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SQL Injection: PHP variable in SQL query"
+        },
+        {
+            "id": "nosql-where",
+            "pattern": "\\$where\\s*:\\s*[\"'][^\"']*\\+",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "NoSQL Injection: Dynamic $where clause in MongoDB"
+        },
+        {
+            "id": "nosql-eval",
+            "pattern": "\\$eval\\s*:|db\\.eval\\s*\\(",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "NoSQL Injection: MongoDB $eval allows code execution"
+        },
+        {
+            "id": "xss-innerhtml",
+            "pattern": "\\.innerHTML\\s*=",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: Unsafe innerHTML assignment"
+        },
+        {
+            "id": "xss-outerhtml",
+            "pattern": "\\.outerHTML\\s*=",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: Unsafe outerHTML assignment"
+        },
+        {
+            "id": "xss-document-write",
+            "pattern": "document\\.write\\s*\\(",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: document.write() can execute scripts"
+        },
+        {
+            "id": "xss-document-writeln",
+            "pattern": "document\\.writeln\\s*\\(",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: document.writeln() can execute scripts"
+        },
+        {
+            "id": "xss-insertadjacenthtml",
+            "pattern": "\\.insertAdjacentHTML\\s*\\(",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: insertAdjacentHTML can execute scripts"
+        },
+        {
+            "id": "xss-react-dangerously",
+            "pattern": "dangerouslySetInnerHTML",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: React dangerouslySetInnerHTML bypasses escaping"
+        },
+        {
+            "id": "xss-vue-v-html",
+            "pattern": "v-html\\s*=",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: Vue v-html directive bypasses escaping"
+        },
+        {
+            "id": "xss-angular-bypass",
+            "pattern": "bypassSecurityTrust(Html|Script|Style|Url|ResourceUrl)",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: Angular security bypass method"
+        },
+        {
+            "id": "xss-jquery-html",
+            "pattern": "\\$\\([^)]+\\)\\.html\\s*\\([^)]*\\+",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: jQuery .html() with dynamic content"
+        },
+        {
+            "id": "xss-jinja-safe",
+            "pattern": "\\|\\s*safe\\s*\\}\\}",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: Jinja2 safe filter bypasses escaping"
+        },
+        {
+            "id": "xss-django-autoescape-off",
+            "pattern": "\\{%\\s*autoescape\\s+off\\s*%\\}",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XSS: Django autoescape disabled"
+        },
+        {
+            "id": "eval-js",
+            "pattern": "\\beval\\s*\\(",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Code Injection: eval() allows arbitrary code execution"
+        },
+        {
+            "id": "function-constructor",
+            "pattern": "new\\s+Function\\s*\\(",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Code Injection: Function constructor allows code execution"
+        },
+        {
+            "id": "setinterval-string",
+            "pattern": "setInterval\\s*\\(\\s*[\"']",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Code Injection: setInterval with string argument"
+        },
+        {
+            "id": "settimeout-string",
+            "pattern": "setTimeout\\s*\\(\\s*[\"']",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Code Injection: setTimeout with string argument"
+        },
+        {
+            "id": "exec-python",
+            "pattern": "\\bexec\\s*\\(",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Code Injection: Python exec() allows arbitrary code execution"
+        },
+        {
+            "id": "eval-python",
+            "pattern": "\\beval\\s*\\([^)]*\\)",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Code Injection: Python eval() allows arbitrary code execution"
+        },
+        {
+            "id": "compile-python",
+            "pattern": "\\bcompile\\s*\\([^)]*,[^)]*,[\"']exec[\"']",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Code Injection: Python compile() with exec mode"
+        },
+        {
+            "id": "cmd-exec-template",
+            "pattern": "exec\\s*\\(\\s*`[^`]*\\$\\{",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Command Injection: Template literal in exec()"
+        },
+        {
+            "id": "cmd-exec-concat",
+            "pattern": "exec\\s*\\([^)]*\\+[^)]*\\)",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Command Injection: String concatenation in exec()"
+        },
+        {
+            "id": "cmd-spawn-shell",
+            "pattern": "spawn\\s*\\([^)]*,\\s*\\{[^}]*shell\\s*:\\s*true",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Command Injection: spawn with shell=true"
+        },
+        {
+            "id": "cmd-subprocess-shell",
+            "pattern": "subprocess\\.(call|run|Popen)\\s*\\([^)]*shell\\s*=\\s*True",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Command Injection: Python subprocess with shell=True"
+        },
+        {
+            "id": "cmd-os-system",
+            "pattern": "os\\.system\\s*\\(",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Command Injection: Python os.system() is vulnerable"
+        },
+        {
+            "id": "cmd-os-popen",
+            "pattern": "os\\.popen\\s*\\(",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Command Injection: Python os.popen() is vulnerable"
+        },
+        {
+            "id": "cmd-php-exec",
+            "pattern": "\\b(exec|system|passthru|shell_exec|popen|proc_open)\\s*\\(",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Command Injection: PHP shell execution function"
+        },
+        {
+            "id": "cmd-backtick-php",
+            "pattern": "`\\s*\\$[a-zA-Z_]",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Command Injection: PHP backtick with variable"
+        },
+        {
+            "id": "ldap-injection",
+            "pattern": "ldap_(search|bind|compare)\\s*\\([^)]*\\+",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "LDAP Injection: String concatenation in LDAP query"
+        },
+        {
+            "id": "xpath-injection",
+            "pattern": "(xpath|selectNodes|evaluate)\\s*\\([^)]*\\+",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XPath Injection: String concatenation in XPath query"
+        },
+        {
+            "id": "ssti-template-concat",
+            "pattern": "(render_template_string|Template)\\s*\\([^)]*\\+",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "SSTI: Template with dynamic content"
+        },
+        {
+            "id": "regex-injection",
+            "pattern": "new\\s+RegExp\\s*\\([^)]*\\+",
+            "severity": "medium",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "ReDoS: Dynamic RegExp may allow denial of service"
+        },
+        {
+            "id": "path-traversal-readfile",
+            "pattern": "(readFile|readFileSync|createReadStream)\\s*\\([^)]*\\+",
+            "severity": "high",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Path Traversal: Dynamic path in file read"
+        },
+        {
+            "id": "path-traversal-writefile",
+            "pattern": "(writeFile|writeFileSync|createWriteStream)\\s*\\([^)]*\\+",
+            "severity": "high",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Path Traversal: Dynamic path in file write"
+        },
+        {
+            "id": "path-traversal-unlink",
+            "pattern": "(unlink|unlinkSync|rmdir|rmdirSync)\\s*\\([^)]*\\+",
+            "severity": "high",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Path Traversal: Dynamic path in file deletion"
+        },
+        {
+            "id": "open-redirect-location",
+            "pattern": "(location\\.href|window\\.location)\\s*=\\s*[a-zA-Z_]",
+            "severity": "medium",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Open Redirect: Variable used in location change"
+        },
+        {
+            "id": "open-redirect-response",
+            "pattern": "(res\\.redirect|redirect)\\s*\\(\\s*[a-zA-Z_]",
+            "severity": "medium",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Open Redirect: Variable used in redirect"
+        },
+        {
+            "id": "ssrf-axios",
+            "pattern": "axios\\.(get|post|put|patch|delete|request)\\s*\\(\\s*[a-zA-Z_]",
+            "severity": "high",
+            "owaspId": "A10",
+            "owaspName": "SSRF",
+            "message": "SSRF: Variable URL passed to axios"
+        },
+        {
+            "id": "ssrf-fetch",
+            "pattern": "\\bfetch\\s*\\(\\s*[a-zA-Z_]",
+            "severity": "high",
+            "owaspId": "A10",
+            "owaspName": "SSRF",
+            "message": "SSRF: Variable URL passed to fetch()"
+        },
+        {
+            "id": "ssrf-request",
+            "pattern": "request\\s*\\(\\s*[a-zA-Z_]",
+            "severity": "high",
+            "owaspId": "A10",
+            "owaspName": "SSRF",
+            "message": "SSRF: Variable URL passed to request()"
+        },
+        {
+            "id": "ssrf-urllib",
+            "pattern": "urllib\\.(request\\.)?urlopen\\s*\\([^)]*\\+",
+            "severity": "high",
+            "owaspId": "A10",
+            "owaspName": "SSRF",
+            "message": "SSRF: Dynamic URL in Python urllib"
+        },
+        {
+            "id": "ssrf-requests",
+            "pattern": "requests\\.(get|post|put|patch|delete)\\s*\\([^)]*\\+",
+            "severity": "high",
+            "owaspId": "A10",
+            "owaspName": "SSRF",
+            "message": "SSRF: Dynamic URL in Python requests"
+        },
+        {
+            "id": "ssrf-curl",
+            "pattern": "curl_setopt\\s*\\([^,]+,\\s*CURLOPT_URL\\s*,\\s*\\$",
+            "severity": "high",
+            "owaspId": "A10",
+            "owaspName": "SSRF",
+            "message": "SSRF: Variable URL in PHP cURL"
+        },
+        {
+            "id": "ssl-verify-false",
+            "pattern": "(verify\\s*=\\s*False|NODE_TLS_REJECT_UNAUTHORIZED|rejectUnauthorized\\s*:\\s*false)",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "SSL/TLS verification disabled"
+        },
+        {
+            "id": "ssl-verify-none",
+            "pattern": "ssl\\.CERT_NONE|VERIFY_NONE",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "SSL certificate verification disabled"
+        },
+        {
+            "id": "debug-enabled",
+            "pattern": "(debug|DEBUG)\\s*[:=]\\s*[Tt]rue",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Debug mode enabled - disable in production"
+        },
+        {
+            "id": "cors-wildcard",
+            "pattern": "Access-Control-Allow-Origin[\"']?\\s*[:=]\\s*[\"']\\*[\"']",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "CORS allows all origins - restrict to specific domains"
+        },
+        {
+            "id": "cors-credentials-wildcard",
+            "pattern": "Access-Control-Allow-Credentials[\"']?\\s*[:=]\\s*[\"']?true",
+            "severity": "high",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "CORS credentials with wildcard origin is dangerous"
+        },
+        {
+            "id": "env-exposure",
+            "pattern": "JSON\\.stringify\\s*\\(\\s*process\\.env\\s*\\)",
+            "severity": "critical",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "All environment variables exposed - may leak secrets"
+        },
+        {
+            "id": "error-exposure",
+            "pattern": "(res\\.(send|json)|response\\.(send|json))\\s*\\(\\s*(err|error|e)(\\.message)?\\s*\\)",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Error details exposed to client - may leak sensitive info"
+        },
+        {
+            "id": "stack-trace-exposure",
+            "pattern": "(err|error|e)\\.stack",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Stack trace may be exposed - sanitize in production"
+        },
+        {
+            "id": "cookie-no-secure",
+            "pattern": "cookie\\s*\\([^)]+\\)(?![^)]*secure)",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Cookie without secure flag - use HTTPS"
+        },
+        {
+            "id": "cookie-no-httponly",
+            "pattern": "cookie\\s*\\([^)]+\\)(?![^)]*httpOnly)",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Cookie without httpOnly flag - vulnerable to XSS"
+        },
+        {
+            "id": "cookie-no-samesite",
+            "pattern": "cookie\\s*\\([^)]+\\)(?![^)]*sameSite)",
+            "severity": "medium",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Cookie without sameSite flag - vulnerable to CSRF"
+        },
+        {
+            "id": "xxe-parser",
+            "pattern": "(XMLParser|lxml\\.etree|xml\\.sax)(?![^)]*resolve_entities\\s*=\\s*False)",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XXE: XML parser may allow external entities"
+        },
+        {
+            "id": "xxe-libxml",
+            "pattern": "LIBXML_NOENT|libxml_disable_entity_loader\\s*\\(\\s*false\\s*\\)",
+            "severity": "critical",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "XXE: External entity loading enabled"
+        },
+        {
+            "id": "deserialization-pickle",
+            "pattern": "pickle\\.(loads?|Unpickler)",
+            "severity": "critical",
+            "owaspId": "A08",
+            "owaspName": "Software and Data Integrity Failures",
+            "message": "Insecure Deserialization: pickle can execute arbitrary code"
+        },
+        {
+            "id": "deserialization-yaml",
+            "pattern": "yaml\\.load\\s*\\([^)]*\\)(?![^)]*Loader\\s*=\\s*yaml\\.SafeLoader)",
+            "severity": "high",
+            "owaspId": "A08",
+            "owaspName": "Software and Data Integrity Failures",
+            "message": "Insecure Deserialization: Use yaml.safe_load()"
+        },
+        {
+            "id": "deserialization-marshal",
+            "pattern": "Marshal\\.load",
+            "severity": "critical",
+            "owaspId": "A08",
+            "owaspName": "Software and Data Integrity Failures",
+            "message": "Insecure Deserialization: Ruby Marshal.load is dangerous"
+        },
+        {
+            "id": "deserialization-unserialize",
+            "pattern": "\\bunserialize\\s*\\(",
+            "severity": "critical",
+            "owaspId": "A08",
+            "owaspName": "Software and Data Integrity Failures",
+            "message": "Insecure Deserialization: PHP unserialize is dangerous"
+        },
+        {
+            "id": "deserialization-objectinputstream",
+            "pattern": "ObjectInputStream|readObject\\s*\\(",
+            "severity": "high",
+            "owaspId": "A08",
+            "owaspName": "Software and Data Integrity Failures",
+            "message": "Insecure Deserialization: Java ObjectInputStream"
+        },
+        {
+            "id": "log-password",
+            "pattern": "(console\\.(log|info|warn|error)|logger\\.|log\\.)[^;]*password",
+            "severity": "high",
+            "owaspId": "A09",
+            "owaspName": "Security Logging Failures",
+            "message": "Password may be logged in cleartext"
+        },
+        {
+            "id": "log-token",
+            "pattern": "(console\\.(log|info|warn|error)|logger\\.|log\\.)[^;]*(token|api[_-]?key|secret)",
+            "severity": "high",
+            "owaspId": "A09",
+            "owaspName": "Security Logging Failures",
+            "message": "Sensitive data may be logged"
+        },
+        {
+            "id": "log-credit-card",
+            "pattern": "(console\\.(log|info|warn|error)|logger\\.|log\\.)[^;]*(card|credit|cvv|ccv)",
+            "severity": "critical",
+            "owaspId": "A09",
+            "owaspName": "Security Logging Failures",
+            "message": "Credit card data may be logged (PCI violation)"
+        },
+        {
+            "id": "weak-password-min-length",
+            "pattern": "minlength\\s*[:=]\\s*[\"']?[1-7][\"']?",
+            "severity": "medium",
+            "owaspId": "A07",
+            "owaspName": "Authentication Failures",
+            "message": "Password minimum length too short (use 8+)"
+        },
+        {
+            "id": "auth-timing-attack",
+            "pattern": "password\\s*===|===\\s*password|password\\s*==|==\\s*password",
+            "severity": "medium",
+            "owaspId": "A07",
+            "owaspName": "Authentication Failures",
+            "message": "Use constant-time comparison for passwords"
+        },
+        {
+            "id": "hardcoded-admin-creds",
+            "pattern": "(admin|root|administrator)\\s*[:=]\\s*[\"'][^\"']+[\"']",
+            "severity": "critical",
+            "owaspId": "A07",
+            "owaspName": "Authentication Failures",
+            "message": "Potential hardcoded admin credentials"
+        },
+        {
+            "id": "session-no-rotation",
+            "pattern": "session\\.id(?![^;]*regenerate)",
+            "severity": "medium",
+            "owaspId": "A07",
+            "owaspName": "Authentication Failures",
+            "message": "Session ID should be rotated after login"
+        },
+        {
+            "id": "prototype-pollution",
+            "pattern": "Object\\.assign\\s*\\([^,]+,\\s*[a-zA-Z_]+\\)|\\[\\s*[a-zA-Z_]+\\s*\\]\\s*=",
+            "severity": "high",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Potential prototype pollution vulnerability"
+        },
+        {
+            "id": "mass-assignment",
+            "pattern": "\\.update\\s*\\(\\s*req\\.(body|query|params)\\s*\\)",
+            "severity": "high",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Mass assignment vulnerability - whitelist allowed fields"
+        },
+        {
+            "id": "idor-sequential",
+            "pattern": "params\\.(id|userId|user_id)\\s*[^&]*(?:find|get|update|delete)",
+            "severity": "medium",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "Potential IDOR - verify user owns this resource"
+        },
+        {
+            "id": "missing-csrf-post",
+            "pattern": "app\\.(post|put|patch|delete)\\s*\\([^)]+\\)(?![^{]*csrf)",
+            "severity": "medium",
+            "owaspId": "A01",
+            "owaspName": "Broken Access Control",
+            "message": "State-changing endpoint may need CSRF protection"
+        },
+        {
+            "id": "cors-origin-reflection",
+            "pattern": "req\\.headers\\.origin|request\\.headers\\[.origin.\\]",
+            "severity": "high",
+            "owaspId": "A05",
+            "owaspName": "Security Misconfiguration",
+            "message": "Origin reflection in CORS - validate against allowlist"
+        },
+        {
+            "id": "unsafe-regex",
+            "pattern": "\\(\\[\\^\\s*\\]\\s*\\)\\s*[*+]|\\(\\s*\\.\\s*\\)\\s*[*+]",
+            "severity": "medium",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "ReDoS: Regex may cause catastrophic backtracking"
+        },
+        {
+            "id": "header-injection",
+            "pattern": "(res\\.setHeader|response\\.addHeader)\\s*\\([^,]+,\\s*[a-zA-Z_]+\\s*\\)",
+            "severity": "medium",
+            "owaspId": "A03",
+            "owaspName": "Injection",
+            "message": "Header Injection: Validate header values"
+        },
+        {
+            "id": "insecure-crypto-mode",
+            "pattern": "(ECB|DES|3DES|RC4|BLOWFISH)",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Weak cryptographic algorithm or mode"
+        },
+        {
+            "id": "hardcoded-iv",
+            "pattern": "iv\\s*[:=]\\s*[\"'][0-9a-fA-F]{16,}[\"']",
+            "severity": "high",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Hardcoded IV - use random IV for each encryption"
+        },
+        {
+            "id": "timing-oracle",
+            "pattern": "\\.slice\\s*\\(\\s*0\\s*,\\s*\\d+\\s*\\)\\s*===",
+            "severity": "medium",
+            "owaspId": "A02",
+            "owaspName": "Cryptographic Failures",
+            "message": "Potential timing oracle - use constant-time comparison"
+        }
+    ]
+}
