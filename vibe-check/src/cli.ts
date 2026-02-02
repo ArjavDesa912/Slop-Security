@@ -31,7 +31,7 @@ program
     .option('--exclude <patterns>', 'Exclude glob patterns (comma-separated)', '**/node_modules/**,**/dist/**,**/.git/**')
     .option('--ai', 'Enable AI-powered detection (requires API key)')
     .option('--ai-only', 'Use only AI detection (no pattern matching)')
-    .option('--ai-provider <provider>', 'AI provider: openai, anthropic, ollama', 'openai')
+    .option('--ai-provider <provider>', 'AI provider: openai, anthropic, ollama, gemini-cli, claude-cli, manual', 'openai')
     .option('--ai-model <model>', 'AI model to use')
     .option('--patterns <file>', 'Path to custom patterns JSON file')
     .action(async (scanPath: string, options: any) => {
@@ -113,7 +113,13 @@ program
                         results = scanWithPatterns(content, relativePath, patterns);
                     } else {
                         // AI-powered scan (async)
-                        results = await scanContent(content, relativePath, { aiMode });
+                        results = await scanContent(content, relativePath, {
+                            aiMode,
+                            aiConfig: {
+                                provider: options.aiProvider,
+                                model: options.aiModel
+                            }
+                        });
                     }
 
                     filesScanned++;

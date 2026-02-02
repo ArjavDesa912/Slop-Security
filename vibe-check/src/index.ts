@@ -27,6 +27,12 @@ export interface ScanOptions {
     include?: string[];
     exclude?: string[];
     aiMode?: 'off' | 'only' | 'hybrid';
+    aiConfig?: {
+        provider?: 'openai' | 'anthropic' | 'ollama' | 'gemini-cli' | 'claude-cli' | 'manual' | 'custom';
+        model?: string;
+        apiKey?: string;
+        executablePath?: string;
+    };
 }
 
 export interface VulnerabilityPattern {
@@ -1041,7 +1047,18 @@ export async function scanContent(
     if (aiMode === 'only' || aiMode === 'hybrid') {
         try {
             const { analyzeWithAI, getDefaultLLMConfig } = await import('./ai-detection.js');
-            const llmConfig = getDefaultLLMConfig();
+            let llmConfig = getDefaultLLMConfig();
+
+            // Override with provided options
+            if (options.aiConfig) {
+                if (!llmConfig) {
+                    llmConfig = { provider: options.aiConfig.provider || 'openai' };
+                }
+                if (options.aiConfig.provider) llmConfig.provider = options.aiConfig.provider;
+                if (options.aiConfig.model) llmConfig.model = options.aiConfig.model;
+                if (options.aiConfig.apiKey) llmConfig.apiKey = options.aiConfig.apiKey;
+                if (options.aiConfig.executablePath) llmConfig.executablePath = options.aiConfig.executablePath;
+            }
 
             if (llmConfig) {
                 const aiResults = await analyzeWithAI(content, filename, llmConfig);

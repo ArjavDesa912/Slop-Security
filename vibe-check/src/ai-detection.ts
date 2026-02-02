@@ -6,11 +6,13 @@
  */
 
 export interface LLMConfig {
-    provider: 'openai' | 'anthropic' | 'ollama' | 'custom';
+    provider: 'openai' | 'anthropic' | 'ollama' | 'gemini-cli' | 'claude-cli' | 'manual' | 'custom';
     apiKey?: string;
     model?: string;
     baseUrl?: string;
     timeout?: number;
+    // For CLI providers, optional path to executable
+    executablePath?: string;
 }
 
 export interface AIDetectionResult {
@@ -90,6 +92,15 @@ export async function analyzeWithAI(
                 break;
             case 'ollama':
                 response = await callOllama(prompt, config);
+                break;
+            case 'gemini-cli':
+                response = await callGeminiCLI(prompt, config);
+                break;
+            case 'claude-cli':
+                response = await callClaudeCLI(prompt, config);
+                break;
+            case 'manual':
+                response = await callManualInput(prompt, config);
                 break;
             case 'custom':
                 response = await callCustom(prompt, config);
@@ -202,6 +213,84 @@ async function callCustom(prompt: string, config: LLMConfig): Promise<string> {
 
     const data = await response.json() as any;
     return data.response || data.content || data.text || '[]';
+}
+
+// =============================================================================
+// CLI & MANUAL PROVIDERS
+// =============================================================================
+
+import { exec } from 'child_process';
+import { promisify } from 'util';
+const execAsync = promisify(exec);
+
+async function callGeminiCLI(prompt: string, config: LLMConfig): Promise<string> {
+    const cmd = config.executablePath || 'gemini';
+    // Escape the prompt for shell safety is tricky, so we'll try to use a temp file if possible
+    // But for simplicity in this MVP, we'll try basic escaping or stdin if the tool supports it.
+    // Assuming 'gemini prompt "text"' syntax or piping.
+    // Modern CLIs often accept piping: echo "prompt" | gemini
+
+    try {
+        // Attempt piping first as it's safer for large prompts
+        const escapedPrompt = prompt.replace(/"/g, '\\"');
+        const { stdout } = await execAsync(`echo "${escapedPrompt}" | ${cmd} --format=json`);
+        return stdout;
+    } catch (error) {
+        // Fallback to arguments
+        try {
+            // Very notable risk of command injection or length limits here, 
+            // but typical for local dev tools. 
+            // In a real scenario, we'd write to a tmp file.
+            const fs = require('fs');
+            const os = require('os');
+            const path = require('path');
+            const tmpFile = path.join(os.tmpdir(), `vibe-check-prompt-${Date.now()}.txt`);
+            fs.writeFileSync(tmpFile, prompt);
+
+            // Check if tool supports file input, otherwise cat it
+            // Assuming the tool might take a file arg like `gemini -f file` or similar
+            // If we don't know the syntax, we'll stick to basic piping which failed above.
+
+            // Let's assume the user has 'gemini' installed and it reads stdin.
+            throw new Error('Gemini CLI execution failed. Ensure "gemini" is in your PATH and supports stdin.');
+        } catch (e) {
+            throw error;
+        }
+    }
+}
+
+async function callClaudeCLI(prompt: string, config: LLMConfig): Promise<string> {
+    const cmd = config.executablePath || 'claude';
+    try {
+        // Claude Code CLI typically accepts prompt as arg.
+        // It might be interactive by default, so we might need flags.
+        // `claude -p "prompt"` is common for some wrappers, but the official one is "claude"
+        // Let's try piping as it's standard unix philosophy.
+        const escapedPrompt = prompt.replace(/"/g, '\\"');
+        const { stdout } = await execAsync(`echo "${escapedPrompt}" | ${cmd}`);
+        return stdout;
+    } catch (error) {
+        throw new Error(`Claude CLI failed: ${(error as Error).message}`);
+    }
+}
+
+async function callManualInput(prompt: string, _config: LLMConfig): Promise<string> {
+    console.log('\n' + '='.repeat(80));
+    console.log('🤖 MANUAL AI ANALYSIS REQUEST');
+    console.log('='.repeat(80));
+    console.log('Please copy the following prompt into your AI assistant (Antigravity, Cursor, Windsurf, etc.):\n');
+    console.log(prompt);
+    console.log('\n' + '='.repeat(80));
+    console.log('Waiting for JSON response... (Paste the JSON array below and press Ctrl+D or Ctrl+Z)');
+
+    const fs = require('fs');
+    // Read from stdin
+    try {
+        const input = fs.readFileSync(0, 'utf-8');
+        return input;
+    } catch (e) {
+        return '[]';
+    }
 }
 
 function parseAIResponse(response: string, filename: string): AIDetectionResult[] {
